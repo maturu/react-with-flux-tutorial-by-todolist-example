@@ -30,6 +30,11 @@ class TodoStore extends EventEmitter {
     this.emit("change");
   }
 
+  receiveTodos(todos) {
+    this.todos = todos;
+    this.emit("change");
+  }
+
   deleteTodo(id) {
     const index = this.todos.indexOf(id);
     this.todos.splice(index, 1);
@@ -41,7 +46,6 @@ class TodoStore extends EventEmitter {
   }
 
   handleActions(action) {
-    console.log("TodoStore received an action", action);
     switch(action.type) {
       case "CREATE_TODO": {
         this.createTodo(action.text);
@@ -49,6 +53,10 @@ class TodoStore extends EventEmitter {
       }
       case "DELETE_TODO": {
         this.deleteTodo(action.id);
+        break;
+      }
+      case "RECEIVE_TODOS": {
+        this.receiveTodos(action.todos);
         break;
       }
     }
